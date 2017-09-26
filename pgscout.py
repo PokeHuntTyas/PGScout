@@ -67,18 +67,22 @@ def get_iv():
     # Cache successful jobs and return result
     if job.result['message']['success']:
         cache_encounter(cache_key, job.result)
-    #return jsonify(job.result)
-    response = requests.post(cfg_get('customwebhook'), json = job.result)
-    if(response.status_code == 200):
-        return jsonify({
-            'success': True,
-        })   
-    else:
-        log.error("Error sending webhook: {}".format(response.raise_for_status()))
-        return jsonify({
-            'success': False,
-            'error': str(response.raise_for_status())
-        })
+        #return jsonify(job.result)
+        response = requests.post(cfg_get('customwebhook'), json = job.result)
+        if(response.status_code == 200):
+            return jsonify({
+                'success': True,
+            })   
+        else:
+            log.error("Error sending webhook: {}".format(response.raise_for_status()))
+            return jsonify({
+                'success': False,
+                'error': str(response.raise_for_status())
+            })
+    return jsonify({
+                'success': False,
+                'error': str(response.raise_for_status())
+            })
 
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
