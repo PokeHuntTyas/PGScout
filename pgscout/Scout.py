@@ -241,8 +241,8 @@ class Scout(POGOAccount):
                 'catch_prob_3': probs[2],
                 'scout_level': scout_level,
                 'encountered_time': time.time()
-             }
-
+            }}
+            
         # Add form of Unown
         if job.pokemon_id == 201:
             responses['message']['form'] = pokemon_info.pokemon_display.form
