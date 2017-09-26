@@ -16,7 +16,7 @@ def get_cached_encounter(encounter_id):
 
 def cache_encounter(encounter_id, encounter_data):
     cache_lock.acquire()
-    encounter_cache['message'][encounter_id] = encounter_data
+    encounter_cache[encounter_id] = encounter_data
     cache_lock.release()
 
 
@@ -27,7 +27,7 @@ def cleanup_cache():
     num_deleted = 0
     for encounter_id in encounter_cache.keys():
         encounter = encounter_cache[encounter_id]
-        if now - encounter['encountered_time'] > 60 * 60:
+        if now - encounter['message']['encountered_time'] > 60 * 60:
             del encounter_cache[encounter_id]
             num_deleted += 1
     cache_lock.release()
