@@ -77,7 +77,7 @@ def get_iv():
         log.error("Error sending webhook: {}".format(r.raise_for_status()))
         return jsonify({
             'success': False,
-            'error': r.raise_for_status()
+            'error': str(r.raise_for_status())
         )}
 
 def run_webserver():
