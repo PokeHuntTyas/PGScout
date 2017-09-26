@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+import requests
 from Queue import Queue
 from threading import Thread
 
@@ -13,7 +14,6 @@ from pgscout.config import cfg_get, cfg_init
 from pgscout.console import print_status
 from pgscout.utils import get_pokemon_name, normalize_encounter_id, \
     normalize_spawn_point_id, load_pgpool_accounts, app_state
-from pgscout.shared import SessionManager, LOOP
 
 logging.basicConfig(level=logging.INFO,
     format='%(asctime)s [%(threadName)16s][%(module)14s][%(levelname)8s] %(message)s')
@@ -68,27 +68,17 @@ def get_iv():
     if job.result['success']:
         cache_encounter(cache_key, job.result)
     #return jsonify(job.result)
-    session = SessionManager.get()
-    LOOP.create_task(webhook_post(cfg_get('cw'), session, job.result))
-    return jsonify({
-        'success': OK,
-    })
-
-async def webhook_post(self, cw, session, payload):
-    try:
-        async with session.post(cw),json=payload) as resp:
-            return True
-    except ClientResponseError as e:
-        log.error('Error {} from webook {}: {}', e.code, cw, e.message)
-    except (TimeoutError, ServerTimeoutError):
-        log.error('Response timeout from webhook: {}', cw)
-    except ClientError as e:
-        log.error('{} on webhook: {}', e.__class__.__name__, cw)
-    except CancelledError:
-        raise
-    except Exception:
-        log.exception('Error from webhook: {}', cw)
-    return False
+    response = requests.post(cfg_get('cw'), data = job.result)
+    if(r.status_code == 200):
+        return jsonify({
+            'success': True,
+        })   
+    else
+        log.error("Error sending webhook: {}".format(r.raise_for_status()))
+        return jsonify({
+            'success': False,
+            'error': r.raise_for_status()
+            )}
 
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
