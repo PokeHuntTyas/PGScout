@@ -73,7 +73,7 @@ def get_iv():
         return jsonify({
             'success': True,
         })   
-    else
+    else:
         log.error("Error sending webhook: {}".format(r.raise_for_status()))
         return jsonify({
             'success': False,
