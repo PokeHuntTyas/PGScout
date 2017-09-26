@@ -65,7 +65,7 @@ def get_iv():
         time.sleep(1)
 
     # Cache successful jobs and return result
-    if job.result['success']:
+    if job.result['message']['success']:
         cache_encounter(cache_key, job.result)
     #return jsonify(job.result)
     response = requests.post(cfg_get('cw'), data = job.result)
