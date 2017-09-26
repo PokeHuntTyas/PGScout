@@ -69,21 +69,24 @@ def get_iv():
         cache_encounter(cache_key, job.result)
     #return jsonify(job.result)
     session = SessionManager.get()
+    return await webhook_post(cfg_get('cw'), session, job.result)
+
+async def webhook_post(self, cw, session, payload):
     try:
-        async with session.post(cfg_get('cw'),json=job.result) as resp:
+        async with session.post(cw),json=payload) as resp:
             return jsonify({
             'success': True,
             })
     except ClientResponseError as e:
-        log.error('Error {} from webook {}: {}', e.code, cfg_get('cw'), e.message)
+        log.error('Error {} from webook {}: {}', e.code, cw, e.message)
     except (TimeoutError, ServerTimeoutError):
-        log.error('Response timeout from webhook: {}', cfg_get('cw'))
+        log.error('Response timeout from webhook: {}', cw)
     except ClientError as e:
-        log.error('{} on webhook: {}', e.__class__.__name__, cfg_get('cw'))
+        log.error('{} on webhook: {}', e.__class__.__name__, cw)
     except CancelledError:
         raise
     except Exception:
-        log.exception('Error from webhook: {}', cfg_get('cw'))
+        log.exception('Error from webhook: {}', cw)
     return jsonify({
     'success': False,
     })
