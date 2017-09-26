@@ -69,15 +69,15 @@ def get_iv():
         cache_encounter(cache_key, job.result)
     #return jsonify(job.result)
     response = requests.post(cfg_get('customwebhook'), data = job.result)
-    if(r.status_code == 200):
+    if(response.status_code == 200):
         return jsonify({
             'success': True,
         })   
     else:
-        log.error("Error sending webhook: {}".format(r.raise_for_status()))
+        log.error("Error sending webhook: {}".format(response.raise_for_status()))
         return jsonify({
             'success': False,
-            'error': str(r.raise_for_status())
+            'error': str(response.raise_for_status())
         })
 
 def run_webserver():
