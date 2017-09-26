@@ -13,6 +13,7 @@ from pgscout.config import cfg_get, cfg_init
 from pgscout.console import print_status
 from pgscout.utils import get_pokemon_name, normalize_encounter_id, \
     normalize_spawn_point_id, load_pgpool_accounts, app_state
+from pgscout.shared import SessionManager
 
 logging.basicConfig(level=logging.INFO,
     format='%(asctime)s [%(threadName)16s][%(module)14s][%(levelname)8s] %(message)s')
@@ -66,8 +67,26 @@ def get_iv():
     # Cache successful jobs and return result
     if job.result['success']:
         cache_encounter(cache_key, job.result)
-    return jsonify(job.result)
-
+    #return jsonify(job.result)
+    session = SessionManager.get()
+    try:
+        async with session.post(cfg_get('cw'),json=job.result) as resp:
+            return jsonify({
+            'success': True,
+            })
+    except ClientResponseError as e:
+        log.error('Error {} from webook {}: {}', e.code, cfg_get('cw'), e.message)
+    except (TimeoutError, ServerTimeoutError):
+        log.error('Response timeout from webhook: {}', cfg_get('cw'))
+    except ClientError as e:
+        log.error('{} on webhook: {}', e.__class__.__name__, cfg_get('cw'))
+    except CancelledError:
+        raise
+    except Exception:
+        log.exception('Error from webhook: {}', cfg_get('cw'))
+    return jsonify({
+    'success': False,
+    })
 
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
