@@ -54,7 +54,7 @@ def parse_args():
 
     parser.add_argument('-pgpsid', '--pgpool-system-id',
                         help='System ID for PGPool. Required if --pgpool-url given.')
-    parser.add_argument('-cw', '--custom-webhook', default='https://127.0.0.1:1234',
+    parser.add_argument('-cw', '--customwebhook', default='https://127.0.0.1:1234',
                         help='Custom webhook where the encounter info needs to be sent to')
 
     accs = parser.add_mutually_exclusive_group(required=True)
