@@ -68,7 +68,7 @@ def get_iv():
     if job.result['message']['success']:
         cache_encounter(cache_key, job.result)
     #return jsonify(job.result)
-    response = requests.post(cfg_get('customwebhook'), data = job.result)
+    response = requests.post(cfg_get('customwebhook'), data = jsonify(job.result))
     if(response.status_code == 200):
         return jsonify({
             'success': True,
