@@ -81,7 +81,7 @@ def get_iv():
             })
     return jsonify({
                 'success': False,
-                'error': 'NO GRRRREAAT SUCCESS MY MAN')
+                'error': 'NO GRRRREAAT SUCCESS MY MAN'
             })
 
 def run_webserver():
