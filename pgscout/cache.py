@@ -16,7 +16,7 @@ def get_cached_encounter(encounter_id):
 
 def cache_encounter(encounter_id, encounter_data):
     cache_lock.acquire()
-    encounter_cache[encounter_id] = encounter_data
+    encounter_cache['message'][encounter_id] = encounter_data
     cache_lock.release()
 
 
