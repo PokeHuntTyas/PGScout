@@ -256,9 +256,11 @@ class Scout(POGOAccount):
     def scout_error(self, error_msg):
         self.log_error("Error: {}".format(error_msg))
         return {
+            'type': "iv",
+            'message': {
             'success': False,
             'error': error_msg
-        }
+        }}
 
     def jittered_location(self, job):
         (lat, lng) = jitter_location(job.lat, job.lng)
