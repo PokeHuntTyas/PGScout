@@ -78,7 +78,7 @@ def get_iv():
         return jsonify({
             'success': False,
             'error': str(r.raise_for_status())
-        )}
+        })
 
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
