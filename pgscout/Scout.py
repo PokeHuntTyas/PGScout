@@ -217,33 +217,35 @@ class Scout(POGOAccount):
                                             pokemon_info.move_2)
 
         responses = {
-            'success': True,
-            'encounter_id': job.encounter_id,
-            'encounter_id_b64': b64encode(str(job.encounter_id)),
-            'height': pokemon_info.height_m,
-            'weight': pokemon_info.weight_kg,
-            'gender': pokemon_info.pokemon_display.gender,
-            'iv_percent': iv,
-            'iv_attack': at,
-            'iv_defense': df,
-            'iv_stamina': st,
-            'move_1': pokemon_info.move_1,
-            'move_2': pokemon_info.move_2,
-            'rating_attack': moveset_grades['offense'],
-            'rating_defense': moveset_grades['defense'],
-            'cp': cp,
-            'cp_multiplier': pokemon_info.cp_multiplier,
-            'level': pokemon_level,
-            'catch_prob_1': probs[0],
-            'catch_prob_2': probs[1],
-            'catch_prob_3': probs[2],
-            'scout_level': scout_level,
-            'encountered_time': time.time()
-        }
+            'type': "iv",
+            'message': {
+                'success': True,
+                'encounter_id': job.encounter_id,
+                'encounter_id_b64': b64encode(str(job.encounter_id)),
+                'height': pokemon_info.height_m,
+                'weight': pokemon_info.weight_kg,
+                'gender': pokemon_info.pokemon_display.gender,
+                'iv_percent': iv,
+                'iv_attack': at,
+                'iv_defense': df,
+                'iv_stamina': st,
+                'move_1': pokemon_info.move_1,
+                'move_2': pokemon_info.move_2,
+                'rating_attack': moveset_grades['offense'],
+                'rating_defense': moveset_grades['defense'],
+                'cp': cp,
+                'cp_multiplier': pokemon_info.cp_multiplier,
+                'level': pokemon_level,
+                'catch_prob_1': probs[0],
+                'catch_prob_2': probs[1],
+                'catch_prob_3': probs[2],
+                'scout_level': scout_level,
+                'encountered_time': time.time()
+             }
 
         # Add form of Unown
         if job.pokemon_id == 201:
-            responses['form'] = pokemon_info.pokemon_display.form
+            responses['message']['form'] = pokemon_info.pokemon_display.form
 
         self.log_info(
             u"Found a {:.1f}% ({}/{}/{}) L{} {} with {} CP (scout level {}).".format(
