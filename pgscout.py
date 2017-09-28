@@ -44,7 +44,7 @@ def get_iv():
         'success': True,
     })
     
-@app.after_request
+@app.teardown_request
 def return_iv(response):
     pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
