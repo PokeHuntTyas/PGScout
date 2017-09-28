@@ -48,8 +48,8 @@ def get_iv():
 def return_iv(response):
     pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
-    lat = request["latitude"]
-    lng = request["longitude"]
+    lat = request.args["latitude"]
+    lng = request.args["longitude"]
     encounter_id = normalize_encounter_id(request.args.get("encounter_id"))
     spawn_point_id = normalize_spawn_point_id(request.args.get("spawn_point_id"))
 
