@@ -39,19 +39,19 @@ def get_iv():
             'success': False,
             'error': 'Not accepting new requests.'
         })
-    return_iv(request.args)
+    #return_iv(request.args)
     return jsonify({
         'success': True,
     })
     
-
-def return_iv(request):
-    pokemon_id = request["pokemon_id"]
+@app.after_request
+def return_iv():
+    pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
     lat = request["latitude"]
     lng = request["longitude"]
-    encounter_id = normalize_encounter_id(request.get("encounter_id", None))
-    spawn_point_id = normalize_spawn_point_id(request.get("spawn_point_id", None))
+    encounter_id = normalize_encounter_id(request.args.get("encounter_id"))
+    spawn_point_id = normalize_spawn_point_id(request.args.get("spawn_point_id"))
 
     # Check cache
     cache_key = encounter_id if encounter_id else "{}-{}-{}".format(pokemon_id, lat, lng)
@@ -62,9 +62,6 @@ def return_iv(request):
         response = requests.post(cfg_get('customwebhook'), json = job.result)
         if(response.status_code != 200):
             log.error("Error sending webhook: {}".format(response.raise_for_status()))
-            return False
-        else:
-            return True
 
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
@@ -81,10 +78,6 @@ def return_iv(request):
         response = requests.post(cfg_get('customwebhook'), json = job.result)
         if(response.status_code != 200):
             log.error("Error sending webhook: {}".format(response.raise_for_status()))
-            return False
-        else:
-            return True
-    return False
     
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
