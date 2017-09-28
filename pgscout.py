@@ -45,7 +45,7 @@ def get_iv():
     })
     
 @app.after_request
-def return_iv():
+def return_iv(response):
     pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
     lat = request["latitude"]
