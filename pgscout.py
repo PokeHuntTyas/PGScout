@@ -62,6 +62,9 @@ def return_iv(response):
         response = requests.post(cfg_get('customwebhook'), json = job.result)
         if(response.status_code != 200):
             log.error("Error sending webhook: {}".format(response.raise_for_status()))
+            return False
+        else:
+            return True
 
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
@@ -78,6 +81,10 @@ def return_iv(response):
         response = requests.post(cfg_get('customwebhook'), json = job.result)
         if(response.status_code != 200):
             log.error("Error sending webhook: {}".format(response.raise_for_status()))
+            return False
+        else: 
+            return True
+    return False
     
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
