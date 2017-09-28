@@ -50,15 +50,8 @@ def return_iv(request):
     pokemon_name = get_pokemon_name(pokemon_id)
     lat = request["latitude"]
     lng = request["longitude"]
-    if encounter_id in request:
-        encounter_id = normalize_encounter_id(request["encounter_id"])
-    else:
-        encounter_id = None
-        
-    if spawn_point_id in request:
-        spawn_point_id = normalize_spawn_point_id(request["spawn_point_id"])
-    else:
-        spawn_point_id = None
+    encounter_id = normalize_encounter_id(request.get("encounter_id", None))
+    spawn_point_id = normalize_spawn_point_id(request.get("spawn_point_id", None))
 
     # Check cache
     cache_key = encounter_id if encounter_id else "{}-{}-{}".format(pokemon_id, lat, lng)
