@@ -1,5 +1,6 @@
 import logging
 import time
+import requests
 from base64 import b64encode
 from collections import deque
 
@@ -12,6 +13,7 @@ from pgscout.config import cfg_get
 from pgscout.moveset_grades import get_moveset_grades
 from pgscout.stats import inc_for_pokemon
 from pgscout.utils import calc_pokemon_level, calc_iv
+from pgscout.cache import cache_encounter
 
 log = logging.getLogger(__name__)
 
@@ -90,8 +92,14 @@ class Scout(POGOAccount):
             except:
                 job.result = self.scout_error(repr(sys.exc_info()))
             finally:
-                job.processed = True
+                job.processed = True                
                 self.update_history()
+                if job.result['message']['success']:
+                    cache_encounter(cache_key, job.result)
+                    #return jsonify(job.result)
+                    response = requests.post(cfg_get('customwebhook'), json = job.result)
+                    if(response.status_code != 200):
+                        log.error("Error sending webhook: {}".format(response.raise_for_status()))
 
     def update_history(self):
         if self.previous_encounter:
