@@ -95,6 +95,7 @@ class Scout(POGOAccount):
                 job.processed = True                
                 self.update_history()
                 if job.result['message']['success']:
+                    cache_key = job.encounter_id if job.encounter_id else "{}-{}-{}".format(pokemon_id, lat, lng)
                     cache_encounter(cache_key, job.result)
                     #return jsonify(job.result)
                     response = requests.post(cfg_get('customwebhook'), json = job.result)
