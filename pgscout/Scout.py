@@ -229,7 +229,7 @@ class Scout(POGOAccount):
             'type': "iv",
             'message': {
                 'success': True,
-                'encounter_id': job.encounter_id,
+                'encounter_id': str(job.encounter_id),
                 'encounter_id_b64': b64encode(str(job.encounter_id)),
                 'height': pokemon_info.height_m,
                 'weight': pokemon_info.weight_kg,
