@@ -69,22 +69,8 @@ def return_iv(response):
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
 
-    # Enqueue and wait for job to be processed
-    jobs.put(job)
-    while not job.processed:
-        time.sleep(1)
-
-    # Cache successful jobs and return result
-    if job.result['message']['success']:
-        cache_encounter(cache_key, job.result)
-        #return jsonify(job.result)
-        response = requests.post(cfg_get('customwebhook'), json = job.result)
-        if(response.status_code != 200):
-            log.error("Error sending webhook: {}".format(response.raise_for_status()))
-            return False
-        else: 
-            return True
-    return False
+    # Enqueue and wait for job to be processed NO
+    return True
     
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
