@@ -68,6 +68,7 @@ def return_iv(response):
 
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
+    jobs.put(job)
 
     # Enqueue and wait for job to be processed NO
     return True
