@@ -4,13 +4,14 @@ from pgscout.utils import get_pokemon_name
 
 
 class ScoutJob(object):
-    def __init__(self, pokemon_id, encounter_id, spawn_point_id, lat, lng):
+    def __init__(self, pokemon_id, encounter_id, spawn_point_id, lat, lng, pokehunt_id):
         self.pokemon_id = int(pokemon_id)
         self.pokemon_name = get_pokemon_name(pokemon_id)
         self.encounter_id = encounter_id
         self.spawn_point_id = spawn_point_id
         self.lat = float(lat)
         self.lng = float(lng)
+        self.pokehunt_id = pokehunt_id
         self.processed = False
         self.result = {}
 
