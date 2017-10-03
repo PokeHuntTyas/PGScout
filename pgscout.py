@@ -65,6 +65,7 @@ def return_iv(response):
     lng = request.args["longitude"]
     encounter_id = normalize_encounter_id(request.args.get("encounter_id"))
     spawn_point_id = normalize_spawn_point_id(request.args.get("spawn_point_id"))
+    pokehunt_id = request.args["pokehunt_id"]
 
     # Check cache
     cache_key = encounter_id if encounter_id else "{}-{}-{}".format(pokemon_id, lat, lng)
@@ -80,7 +81,7 @@ def return_iv(response):
             return True
 
     # Create a ScoutJob
-    job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
+    job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng, pokehunt_id)
     jobs.put(job)
 
     # Enqueue and wait for job to be processed NO
