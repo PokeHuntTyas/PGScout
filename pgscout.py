@@ -39,6 +39,7 @@ def get_iv():
             'success': False,
             'error': 'Not accepting new requests.'
         })
+        payload = []
         payload['encounter_id'] = normalized['encounter_id']
 	payload['pokemon_id'] = normalized['pokemon_id']
 	payload['latitude'] = normalized['lat']
@@ -46,6 +47,7 @@ def get_iv():
         payload['error'] = "YESSSSSS"
 	response = requests.post('http://192.168.1.101:1418/test1', json=payload)
     #return_iv(request.args)
+    payload = []	
     payload['encounter_id'] = request.args["encounter_id"]
     payload['pokemon_id'] = request.args["pokemon_id"]
     payload['latitude'] = request.args["latitude"]
