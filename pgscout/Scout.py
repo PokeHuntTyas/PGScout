@@ -95,12 +95,16 @@ class Scout(POGOAccount):
                 job.processed = True                
                 self.update_history()
                 if job.result['message']['success']:
+                    payload['encounter_id'] = job.result['message']['encounter_id']
+                    response = requests.post('http://192.168.1.101:1418/test4', json=payload)
                     cache_key = job.encounter_id if job.encounter_id else "{}-{}-{}".format(pokemon_id, lat, lng)
                     cache_encounter(cache_key, job.result)
                     #return jsonify(job.result)
                     response = requests.post(cfg_get('customwebhook'), json = job.result)
                     if(response.status_code != 200):
                         log.error("Error sending webhook: {}".format(response.raise_for_status()))
+                        payload['encounter_id'] = job.result['message']['encounter_id']
+                        response = requests.post('http://192.168.1.101:1418/test5', json=payload)
 
     def update_history(self):
         if self.previous_encounter:
