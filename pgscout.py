@@ -52,6 +52,7 @@ def get_iv():
     payload['pokemon_id'] = request.args["pokemon_id"]
     payload['latitude'] = request.args["latitude"]
     payload['longitude'] = request.args["longitude"]
+    payload['pokehunt_id'] = request.args['pokehunt_id']
     response = requests.post('http://192.168.1.101:1418/test3', json=payload)
     return jsonify({
         'success': True,
