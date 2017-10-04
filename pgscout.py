@@ -54,12 +54,6 @@ def get_iv():
     payload['longitude'] = request.args["longitude"]
     payload['pokehunt_id'] = request.args['pokehunt_id']
     response = requests.post('http://192.168.1.101:1418/test3', json=payload)
-    return jsonify({
-        'success': True,
-    })
-    
-@app.teardown_request
-def return_iv(response):
     pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
     lat = request.args["latitude"]
@@ -86,7 +80,10 @@ def return_iv(response):
     jobs.put(job)
 
     # Enqueue and wait for job to be processed NO
-    return True
+    return jsonify({
+        'success': True,
+    })
+    
     
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
