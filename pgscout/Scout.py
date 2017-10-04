@@ -104,9 +104,9 @@ class Scout(POGOAccount):
                     response = requests.post(cfg_get('customwebhook'), json = job.result)
                     if(response.status_code != 200):
                         log.error("Error sending webhook: {}".format(response.raise_for_status()))
-                        payload = {}
-                        payload['pokehunt_id'] = job.result['message']['pokehunt_id']
-                        response = requests.post('http://192.168.1.101:1418/test5', json=payload)
+                    payload = {}
+                    payload['pokehunt_id'] = job.result['message']['pokehunt_id']
+                    response = requests.post('http://192.168.1.101:1418/test5', json=payload)
 
     def update_history(self):
         if self.previous_encounter:
