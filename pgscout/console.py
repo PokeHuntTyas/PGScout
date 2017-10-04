@@ -40,7 +40,7 @@ def input_processor(state):
 
         # Disable logging if in fullscreen more
         if state['display'] == 'logs':
-            mainlog.setLevel(default_log_level)
+            mainlog.setLevel(logging.DEBUG)
         else:
             mainlog.setLevel(logging.CRITICAL)
 
