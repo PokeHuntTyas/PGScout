@@ -45,8 +45,8 @@ def get_iv():
 	payload['pokemon_id'] = normalized['pokemon_id']
 	payload['latitude'] = normalized['lat']
 	payload['longitude'] = normalized['lon']
-        payload['error'] = "YESSSSSS, PGSCOUT NO NEW REQUESTS"
-	#response = requests.post('http://192.168.1.101:1418/test1', json=payload)
+        payload['error'] = "PGSCOUT ONTVANGEN, PGSCOUT ACCEPTEERT GEEN NIEUWE REQUESTS"
+	response = requests.post('http://192.168.1.101:1418/test6', json=payload)
     #return_iv(request.args)
     payload = {}	
     payload['encounter_id'] = request.args["encounter_id"]
@@ -54,7 +54,7 @@ def get_iv():
     payload['latitude'] = request.args["latitude"]
     payload['longitude'] = request.args["longitude"]
     payload['pokehunt_id'] = request.args['pokehunt_id']
-    #response = requests.post('http://192.168.1.101:1418/test3', json=payload)
+    response = requests.post('http://192.168.1.101:1418/test3', json=payload)
     pokemon_id = request.args["pokemon_id"]
     pokemon_name = get_pokemon_name(pokemon_id)
     lat = request.args["latitude"]
