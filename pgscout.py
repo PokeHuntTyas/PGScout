@@ -72,9 +72,14 @@ def get_iv():
         response = requests.post(cfg_get('customwebhook'), json = job.result)
         if(response.status_code != 200):
             log.error("Error sending webhook: {}".format(response.raise_for_status()))
-            return False
+            return jsonify({
+                'success': False,
+                'error': 'Not accepting new requests.'
+            })
         else:
-            return True
+            return jsonify({
+                'success': True
+            })
 
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng, pokehunt_id)
