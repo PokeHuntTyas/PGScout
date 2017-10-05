@@ -84,7 +84,13 @@ def get_iv():
         'success': True,
     })
     
-    
+
+@app.errorhandler(werkzeug.exceptions.HTTPException)
+def handle_http_exception(e):
+	requests.post('http://192.168.1.101:1418/test6', json=e)
+	return "something went wrong", 400
+	
+	
 def run_webserver():
     app.run(threaded=True, host=cfg_get('host'), port=cfg_get('port'))
 
