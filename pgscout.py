@@ -14,6 +14,7 @@ from pgscout.config import cfg_get, cfg_init
 from pgscout.console import print_status
 from pgscout.utils import get_pokemon_name, normalize_encounter_id, \
     normalize_spawn_point_id, load_pgpool_accounts, app_state
+from werkzeug.exceptions import HTTPException
 
 logging.basicConfig(level=logging.INFO,
     format='%(asctime)s [%(threadName)16s][%(module)14s][%(levelname)8s] %(message)s')
