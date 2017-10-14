@@ -93,7 +93,7 @@ def get_iv():
 
 @app.errorhandler(Exception)
 def handle_http_exception(e):
-	requests.post('http://192.168.1.101:1418/test6', json=e)
+	#requests.post('http://192.168.1.101:1418/test6', json=e)
 	return "something went wrong", 400
 	
 	
