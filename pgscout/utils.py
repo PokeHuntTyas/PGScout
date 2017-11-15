@@ -86,7 +86,7 @@ def load_pgpool_accounts(count, reuse=False):
     else:
         accounts = []
     for x in range(count):
-        if (not 'auth_service' in load_pgpool_accounts.PreviousAccount) or (load_pgpool_accounts.AccUsed >= 3):
+        if (not 'auth_service' in load_pgpool_accounts.PreviousAccount) or (load_pgpool_accounts.AccUsed >= 2):
             request = {
                 'system_id': cfg_get('pgpool_system_id'),
                 'count': 1,
