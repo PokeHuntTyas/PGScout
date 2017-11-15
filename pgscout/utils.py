@@ -97,11 +97,9 @@ def load_pgpool_accounts(count, reuse=False):
             load_pgpool_accounts.PreviousAccount = r.json()
             load_pgpool_accounts.AccUsed = 0
             accounts.append(r.json())
-            log.info("Nieuw acc: {}, AccUsed: {}, Alle accounts: {}".format(r.json(), load_pgpool_accounts.AccUsed, accounts))
         else:
             load_pgpool_accounts.AccUsed += 1
             accounts.append(load_pgpool_accounts.PreviousAccount)
-            log.info("Oude acc hergebruikt: {}, AccUsed: {}, Alle acounts: {}".format(load_pgpool_accounts.PreviousAccount, load_pgpool_accounts.AccUsed, accounts))
     return accounts
 load_pgpool_accounts.AccUsed = 0
 load_pgpool_accounts.PreviousAccount = {}
