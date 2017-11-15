@@ -81,11 +81,25 @@ def calc_iv(at, df, st):
 def load_pgpool_accounts(count, reuse=False):
     addl_text = " Reusing previous accounts." if reuse else ""
     log.info("Trying to load {} accounts from PGPool.{}".format(count, addl_text))
-    request = {
-        'system_id': cfg_get('pgpool_system_id'),
-        'count': count,
-        'min_level': cfg_get('level'),
-        'reuse': reuse
-    }
-    r = requests.get("{}/account/request".format(cfg_get('pgpool_url')), params=request)
-    return r.json()
+    if count == 1:
+        accounts = {}
+    else:
+        accounts = []
+    for x in range(count-1):
+        if (not auth_service in PreviousAccount) or (AccUsed >= 3):
+            request = {
+                'system_id': cfg_get('pgpool_system_id'),
+                'count': 1,
+                'min_level': cfg_get('level'),
+                'reuse': reuse
+            }
+            r = requests.get("{}/account/request".format(cfg_get('pgpool_url')), params=request)
+            PreviousAccount = r.json()
+            AccUsed = 0
+            accounts.append(r.json())
+        else:
+            AccUsed += 1
+            accounts.append(PreviousAccount)
+    return accounts
+AccUsed = 0
+PreviousAccount = {}
