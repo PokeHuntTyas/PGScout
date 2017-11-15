@@ -85,7 +85,7 @@ def load_pgpool_accounts(count, reuse=False):
         accounts = {}
     else:
         accounts = []
-    for x in range(count-1):
+    for x in range(count):
         if (not 'auth_service' in load_pgpool_accounts.PreviousAccount) or (load_pgpool_accounts.AccUsed >= 3):
             request = {
                 'system_id': cfg_get('pgpool_system_id'),
@@ -97,9 +97,11 @@ def load_pgpool_accounts(count, reuse=False):
             load_pgpool_accounts.PreviousAccount = r.json()
             load_pgpool_accounts.AccUsed = 0
             accounts.append(r.json())
+            log.info("Nieuw acc: {}, AccUsed: {}, Alle accounts: {}".format(r.json(), load_pgpool_accounts.AccUsed, accounts))
         else:
             load_pgpool_accounts.AccUsed += 1
             accounts.append(load_pgpool_accounts.PreviousAccount)
+            log.info("Oude acc hergebruikt: {}, AccUsed: {}, Alle acounts: {}".format(load_pgpool_accounts.Previousaccount, load_pgpool_accounts.AccUsed, accounts))
     return accounts
 load_pgpool_accounts.AccUsed = 0
 load_pgpool_accounts.PreviousAccount = {}
