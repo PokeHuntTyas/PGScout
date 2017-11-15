@@ -86,7 +86,7 @@ def load_pgpool_accounts(count, reuse=False):
     else:
         accounts = []
     for x in range(count-1):
-        if (not auth_service in PreviousAccount) or (AccUsed >= 3):
+        if (not auth_service in load_pgpool_accounts.PreviousAccount) or (AccUsed >= 3):
             request = {
                 'system_id': cfg_get('pgpool_system_id'),
                 'count': 1,
@@ -94,12 +94,12 @@ def load_pgpool_accounts(count, reuse=False):
                 'reuse': reuse
             }
             r = requests.get("{}/account/request".format(cfg_get('pgpool_url')), params=request)
-            PreviousAccount = r.json()
-            AccUsed = 0
+            load_pgpool_accounts.PreviousAccount = r.json()
+            load_pgpool_accounts.AccUsed = 0
             accounts.append(r.json())
         else:
-            AccUsed += 1
-            accounts.append(PreviousAccount)
+            load_pgpool_accounts.AccUsed += 1
+            accounts.append(load_pgpool_accounts.PreviousAccount)
     return accounts
-AccUsed = 0
-PreviousAccount = {}
+load_pgpool_accounts.AccUsed = 0
+load_pgpool_accounts.PreviousAccount = {}
