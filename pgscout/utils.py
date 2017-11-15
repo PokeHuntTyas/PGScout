@@ -101,7 +101,7 @@ def load_pgpool_accounts(count, reuse=False):
         else:
             load_pgpool_accounts.AccUsed += 1
             accounts.append(load_pgpool_accounts.PreviousAccount)
-            log.info("Oude acc hergebruikt: {}, AccUsed: {}, Alle acounts: {}".format(load_pgpool_accounts.Previousaccount, load_pgpool_accounts.AccUsed, accounts))
+            log.info("Oude acc hergebruikt: {}, AccUsed: {}, Alle acounts: {}".format(load_pgpool_accounts.PreviousAccount, load_pgpool_accounts.AccUsed, accounts))
     return accounts
 load_pgpool_accounts.AccUsed = 0
 load_pgpool_accounts.PreviousAccount = {}
